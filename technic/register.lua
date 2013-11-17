@@ -48,3 +48,22 @@ function technic.set_RE_wear(item_stack, item_load, max_load)
 	item_stack.wear = tostring(temp)
 	return item_stack
 end
+
+minetest.register_chatcommand("charge",{
+    params = '',
+    description = "Charge the item you're holding",
+    privs = {server=true},
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if player == nil then return end
+        local item = player:get_wielded_item()
+        if item:is_empty() then return end
+        item:set_wear(0)
+        local meta = get_item_meta(item:get_metadata())
+        if meta == nil then meta = {} end
+        meta["charge"] = 9999999
+        print('max charge! '..set_item_meta(meta))
+        item:set_metadata(set_item_meta(meta))
+        player:set_wielded_item(item)
+    end
+})
