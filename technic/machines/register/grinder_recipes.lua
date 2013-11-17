@@ -1,4 +1,6 @@
 
+local S = technic.getter
+
 technic.grinder_recipes = {}
 
 function technic.register_grinder_recipe(data)
@@ -46,7 +48,9 @@ local recipes = {
 	{"moreores:tin_lump",       "technic:tin_dust 2"},
 	{"technic:chromium_ingot",  "technic:chromium_dust 1"},
 	{"technic:chromium_lump",   "technic:chromium_dust 2"},
+	{"technic:zinc_ingot",      "technic:zinc_dust 1"},
 	{"technic:zinc_lump",       "technic:zinc_dust 2"},
+	{"technic:brass_ingot",     "technic:brass_dust 1"},
 }
 
 if minetest.get_modpath("homedecor") then
@@ -61,7 +65,7 @@ local function register_dust(name, ingot)
 	local lname = string.lower(name)
 	lname = string.gsub(lname, ' ', '_')
 	minetest.register_craftitem("technic:"..lname.."_dust", {
-		description = name.." Dust",
+		description = S("%s Dust"):format(S(name)),
 		inventory_image = "technic_"..lname.."_dust.png",
 		on_place_on_ground = minetest.craftitem_place_item,
 	})
@@ -91,4 +95,10 @@ register_dust("Stainless Steel", "technic:stainless_steel_ingot")
 register_dust("Talinite",        "glooptest:talinite_ingot")
 register_dust("Tin",             "moreores:tin_ingot")
 register_dust("Zinc",            "technic:zinc_ingot")
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "technic:coal_dust",
+	burntime = 50,
+})
 
